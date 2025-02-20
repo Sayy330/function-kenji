@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contoh Fungsi JavaScript & Data KTP - Tema Gradasi Ungu</title>
+  <style>
+    /* Reset & dasar */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    /* Body dengan gradasi ungu */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #8e2de2, #4a00e0);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      color: #ffffff;
+    }
+    /* Container dengan efek glassmorphism dan border gradasi animasi */
+    .container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+      margin: 20px 0;
+      padding: 30px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: slideIn 0.8s ease-out both;
+      /* Pastikan semua teks dalam container berwarna putih */
+      color: #ffffff;
+    }
+    /* Animasi border gradasi pada container */
+    .container::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 180deg at 50% 50%, #4a00e0, #8e2de2, #a044ff, #4a00e0);
+      animation: rotate 6s linear infinite;
+      z-index: -1;
+      filter: blur(30px);
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .container:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 35px rgba(255, 255, 255, 0.5);
+    }
+    /* Judul dengan aksen warna lembut */
+    h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      color: #d8b7ff;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      color: #ffffff;
+    }
+    /* Input & select bergaya modern */
+    input[type="number"],
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 3px;
+      margin-bottom: 10px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+    /* Tombol dengan gradasi ungu dan animasi hover */
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 1.1rem;
+      color: #ffffff;
+      background: linear-gradient(135deg, #4a00e0, #8e2de2);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    }
+    /* Hasil perhitungan */
+    .result {
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+      color: #ffffff;
+    }
+    /* Styling Data KTP dengan gradasi ungu dan animasi slide toggle */
+    .ktp {
+      background: linear-gradient(135deg, #4a00e0, #8e2de2, #a044ff);
+      color: #ffffff;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.5s ease, transform 0.5s ease, max-height 0.5s ease;
+      max-height: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 5px;
+      margin-top: 15px;
+      padding: 15px;
+    }
+    .ktp.show {
+      opacity: 1;
+      transform: translateY(0);
+      max-height: 300px;
+    }
+    .ktp p {
+      font-size: 1rem;
+      margin: 10px 0;
+    }
+    .ktp strong {
+      color: #d8b7ff;
+    }
+    .ktp span {
+      color: #a044ff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Section 1: Kalkulator Diskon -->
+  <div class="container">
+    <h2>Kalkulator Diskon</h2>
+    <label for="harga">Harga Produk (Rp):</label>
+    <input type="number" id="harga" placeholder="Masukkan harga produk">
+    <label for="persentaseDiskon">Persentase Diskon (%):</label>
+    <input type="number" id="persentaseDiskon" placeholder="Masukkan persentase diskon">
+    <button onclick="handleDiskon()">Hitung Diskon</button>
+    <div class="result" id="resultDiskon"></div>
+  </div>
+
+  <!-- Section 2: Konversi Suhu Lengkap -->
+  <div class="container">
+    <h2>Konversi Suhu Lengkap</h2>
+    <label for="nilaiSuhu">Nilai Suhu:</label>
+    <input type="number" id="nilaiSuhu" placeholder="Masukkan nilai suhu">
+    <label for="satuanSuhu">Satuan Suhu (C, F, K, R, Re):</label>
+    <select id="satuanSuhu">
+      <option value="C">Celcius (C)</option>
+      <option value="F">Fahrenheit (F)</option>
+      <option value="K">Kelvin (K)</option>
+      <option value="R">Rankine (R)</option>
+      <option value="Re">Reaumur (Re)</option>
+    </select>
+    <button onclick="handleKonversiSuhu()">Konversi Suhu</button>
+    <div class="result" id="resultSuhu"></div>
+  </div>
+
+  <!-- Section 3: Kalkulator Sederhana -->
+  <div class="container">
+    <h2>Kalkulator Sederhana</h2>
+    <label for="angka1">Angka Pertama:</label>
+    <input type="number" id="angka1" placeholder="Masukkan angka pertama">
+    <label for="angka2">Angka Kedua:</label>
+    <input type="number" id="angka2" placeholder="Masukkan angka kedua">
+    <label for="operator">Operator (+, -, *, /, %):</label>
+    <input type="text" id="operator" placeholder="Masukkan operator">
+    <button onclick="handleKalkulator()">Hitung</button>
+    <div class="result" id="resultKalkulator"></div>
+  </div>
+
+  <!-- Section 4: Data KTP (paling bawah) -->
+  <div class="container">
+    <h2>Tampilkan Data KTP</h2>
+    <button onclick="toggleKTP()">Lihat KTP</button>
+    <div class="ktp" id="ktpInfo">
+      <p><strong>Nama:</strong> <span id="ktpNama">Kenzie Rizki Raditya</span></p>
+      <p><strong>Nomor KTP:</strong> <span id="ktpNomor">1234567890</span></p>
+      <p><strong>Alamat:</strong> <span id="ktpAlamat">Jl. Raya No. 123</span></p>
+      <p><strong>Tanggal Lahir:</strong> <span id="ktpTglLahir">01 Januari 1990</span></p>
+    </div>
+  </div>
+
+  <script>
+    // Fungsi untuk toggle tampilan data KTP dengan animasi slide
+    function toggleKTP() {
+      var ktpInfo = document.getElementById('ktpInfo');
+      ktpInfo.classList.toggle("show");
+    }
+
+    // Fungsi 1: Kalkulator Diskon
+    function hitungDiskon(harga, persentaseDiskon) {
+      const jumlahDiskon = harga * (persentaseDiskon / 100);
+      const hargaSetelahDiskon = harga - jumlahDiskon;
+      return {
+        jumlahDiskon: jumlahDiskon,
+        hargaSetelahDiskon: hargaSetelahDiskon
+      };
+    }
+    function handleDiskon() {
+      const harga = parseFloat(document.getElementById("harga").value);
+      const persentaseDiskon = parseFloat(document.getElementById("persentaseDiskon").value);
+      if (isNaN(harga) || isNaN(persentaseDiskon)) {
+        document.getElementById("resultDiskon").innerHTML = "<p style='color:#ff4444;'>Harap masukkan nilai yang valid!</p>";
+        return;
+      }
+      const hasil = hitungDiskon(harga, persentaseDiskon);
+      document.getElementById("resultDiskon").innerHTML = 
+        "<p>Jumlah Diskon: Rp " + hasil.jumlahDiskon.toFixed(2) + "</p>" +
+        "<p>Harga Setelah Diskon: Rp " + hasil.hargaSetelahDiskon.toFixed(2) + "</p>";
+    }
+
+    // Fungsi 2: Konversi Suhu Lengkap
+    function konversiSuhuLengkap(nilai, satuan) {
+      let celsius;
+      switch (satuan) {
+        case 'C':
+          celsius = nilai;
+          break;
+        case 'F':
+          celsius = (nilai - 32) * 5/9;
+          break;
+        case 'K':
+          celsius = nilai - 273.15;
+          break;
+        case 'R':
+          celsius = (nilai - 491.67) * 5/9;
+          break;
+        case 'Re':
+          celsius = nilai / 0.8;
+          break;
+        default:
+          return null;
+      }
+      const fahrenheit = (celsius * 9/5) + 32;
+      const kelvin = celsius + 273.15;
+      const rankine = (celsius + 273.15) * 9/5;
+      const reaumur = celsius * 0.8;
+      return {
+        Celsius: celsius,
+        Fahrenheit: fahrenheit,
+        Kelvin: kelvin,
+        Rankine: rankine,
+        Reaumur: reaumur
+      };
+    }
+    function handleKonversiSuhu() {
+      const nilaiSuhu = parseFloat(document.getElementById("nilaiSuhu").value);
+      const satuanSuhu = document.getElementById("satuanSuhu").value;
+      if (isNaN(nilaiSuhu)) {
+        document.getElementById("resultSuhu").innerHTML = "<p style='color:#ff4444;'>Harap masukkan nilai suhu yang valid!</p>";
+        return;
+      }
+      const hasil = konversiSuhuLengkap(nilaiSuhu, satuanSuhu);
+      if (!hasil) {
+        document.getElementById("resultSuhu").innerHTML = "<p style='color:#ff4444;'>Satuan suhu tidak valid!</p>";
+        return;
+      }
+      let output = "<p>Celcius: " + hasil.Celsius.toFixed(2) + " °C</p>";
+      output += "<p>Fahrenheit: " + hasil.Fahrenheit.toFixed(2) + " °F</p>";
+      output += "<p>Kelvin: " + hasil.Kelvin.toFixed(2) + " K</p>";
+      output += "<p>Rankine: " + hasil.Rankine.toFixed(2) + " °R</p>";
+      output += "<p>Reaumur: " + hasil.Reaumur.toFixed(2) + " °Re</p>";
+      document.getElementById("resultSuhu").innerHTML = output;
+    }
+
+    // Fungsi 3: Kalkulator Sederhana
+    function kalkulator(angka1, angka2, operator) {
+      switch (operator) {
+        case '+':
+          return angka1 + angka2;
+        case '-':
+          return angka1 - angka2;
+        case '*':
+          return angka1 * angka2;
+        case '/':
+          if (angka2 === 0) {
+            return "Error: Tidak bisa dibagi dengan nol";
+          }
+          return angka1 / angka2;
+        case '%':
+          return angka1 % angka2;
+        default:
+          return "Operator tidak dikenali";
+      }
+    }
+    function handleKalkulator() {
+      const angka1 = parseFloat(document.getElementById("angka1").value);
+      const angka2 = parseFloat(document.getElementById("angka2").value);
+      const operator = document.getElementById("operator").value.trim();
+      if (isNaN(angka1) || isNaN(angka2) || operator === "") {
+        document.getElementById("resultKalkulator").innerHTML = "<p style='color:#ff4444;'>Harap masukkan nilai yang valid!</p>";
+        return;
+      }
+      const hasil = kalkulator(angka1, angka2, operator);
+      document.getElementById("resultKalkulator").innerHTML = "<p>Hasil: " + hasil + "</p>";
+    }
+  </script>
+</body>
+</html>
